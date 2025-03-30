@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TrainingPlan, trainingPlans, threeHourPlan } from "../data/trainingPlans";
+import { TrainingPlan, threeHourPlan } from "../data/trainingPlans";
 import PlanSelector from "../components/PlanSelector";
 import TrainingPlanDisplay from "../components/TrainingPlanDisplay";
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { TrainingPlan, trainingPlans } from "../data/trainingPlans";
 
 interface PlanSelectorProps {

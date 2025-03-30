@@ -53,7 +53,7 @@ export default function PrivacyPolicy() {
               This website contains advertisements from third-party advertising companies, which may use cookies and web beacons to track information such as: your IP address, browser type, time and date, subject of advertisements clicked or scrolled over.
             </p>
             <p className="mb-4">
-              We use Google AdSense Advertising on our website. Google, as a third-party vendor, uses cookies to serve ads on our site. Google's use of the DART cookie enables it to serve ads to our users based on previous visits to our site and other sites on the Internet. Users may opt-out of the use of the DART cookie by visiting the Google Ad and Content Network privacy policy.
+              We use Google AdSense Advertising on our website. Google, as a third-party vendor, uses cookies to serve ads on our site. Google&apos;s use of the DART cookie enables it to serve ads to our users based on previous visits to our site and other sites on the Internet. Users may opt-out of the use of the DART cookie by visiting the Google Ad and Content Network privacy policy.
             </p>
             
             <h2 className="text-xl font-semibold mt-6 mb-3">Your Data Protection Rights</h2>

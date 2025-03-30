@@ -6,7 +6,7 @@ import Script from 'next/script';
 // Add type declaration for adsbygoogle
 declare global {
   interface Window {
-    adsbygoogle: any[];
+    adsbygoogle: Array<Record<string, unknown>>;
   }
 }
 
