@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Marathon Training Plans Website
+
+A comprehensive React application built with Next.js that displays structured 12-week marathon training plans based on Jack Daniels' VDOT methodology. The application includes plans for 3-hour, 4-hour, and 5-hour marathon goal times, catering to runners of different ability levels.
+
+## Live Demo
+
+Coming soon at [marathontrainingplans.com](https://www.marathontrainingplans.com)
+
+## Features
+
+- **Multiple Marathon Plans**:
+  - 3-hour plan (7 days/week, up to 70 miles weekly, multiple 22-mile long runs)
+  - 4-hour plan (5 days/week, up to 60 miles weekly, two 20-mile long runs)
+  - 5-hour plan (5 days/week, up to 55 miles weekly, one 20-mile long run)
+
+- **Plan Details**:
+  - Color-coded training days (workouts, long runs, and easy days)
+  - Personalized training pace zones based on VDOT values
+  - Weekly mileage totals and daily workout descriptions
+  - Long run variation with proper recovery weeks
+
+- **User Experience**:
+  - Responsive design that works on all devices
+  - Interactive plan selection
+  - Cookie consent banner for GDPR compliance
+  - Privacy policy page
+
+- **SEO & Monetization**:
+  - Optimized meta tags for better search engine visibility
+  - Structured sitemap and robots.txt
+  - AdSense-ready with proper components
+  - Complete privacy policy for AdSense compliance
+
+## Tech Stack
+
+- **Framework**: Next.js 14+ (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Deployment**: Vercel (recommended)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18.17 or later
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/marathon-plan-website.git
+   cd marathon-plan-website
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Project Structure
+
+```
+marathon-plan-website/
+├── src/
+│   ├── app/                 # App router pages
+│   │   ├── privacy-policy/  # Privacy policy page
+│   │   ├── robots.ts        # Robots.txt configuration
+│   │   ├── sitemap.ts       # Sitemap generation
+│   │   ├── layout.tsx       # Root layout with metadata
+│   │   └── page.tsx         # Home page
+│   ├── components/          # Reusable UI components
+│   │   ├── CookieConsent.tsx     # GDPR cookie consent banner
+│   │   ├── GoogleAdsense.tsx     # AdSense integration component
+│   │   ├── MetaTags.tsx          # SEO meta tags helper
+│   │   ├── PaceCard.tsx          # Training paces display
+│   │   ├── PlanSelector.tsx      # Marathon plan selector
+│   │   ├── TrainingPlanDisplay.tsx # Full plan display
+│   │   └── TrainingWeek.tsx      # Weekly training display
+│   └── data/                # Training plan data
+│       └── trainingPlans.ts # Marathon plans data structure
+├── public/                  # Static files
+├── package.json             # Dependencies and scripts
+└── tailwind.config.js       # Tailwind CSS configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This application is configured for easy deployment on Vercel:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a Vercel account and connect your GitHub repository
+2. Configure the environment variables if needed
+3. Deploy your application with one click
 
-## Learn More
+For other hosting providers, build the application using:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+# or
+yarn build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## AdSense Integration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application is ready for Google AdSense integration:
 
-## Deploy on Vercel
+1. Apply for a Google AdSense account
+2. Once approved, get your Publisher ID and Ad Unit IDs
+3. Use the `GoogleAdsense` component to place ads on your site:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```tsx
+<GoogleAdsense 
+  client="ca-pub-XXXXXXXXXXXXXXXX" // Your Publisher ID
+  slot="1234567890"                // Your Ad Unit ID
+/>
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Adding New Training Plans
+
+To add more training plans:
+
+1. Create a new plan data structure in `src/data/trainingPlans.ts` following the existing pattern
+2. Add the new plan to the `trainingPlans` array
+3. The plan will automatically appear in the plan selector UI
+
+## Privacy and GDPR Compliance
+
+The site includes:
+
+- A comprehensive privacy policy page
+- GDPR-compliant cookie consent banner
+- Proper disclosure of AdSense advertising
+- User data protection information
+
+## License
+
+MIT
+
+## Acknowledgements
+
+- Training plans based on Jack Daniels' running formula
+- Built with Next.js, React and Tailwind CSS
+- Icons provided by Heroicons
