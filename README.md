@@ -42,7 +42,7 @@ Coming soon at [marathontrainingplans.com](https://www.marathontrainingplans.com
 
 ### Prerequisites
 
-- Node.js 18.17 or later
+- Node.js 20.x or later (also compatible with Node.js 18.17+)
 - npm or yarn
 
 ### Installation
@@ -97,11 +97,22 @@ marathon-plan-website/
 
 ## Deployment
 
-This application is configured for easy deployment on Vercel:
+This application is configured for easy deployment on Vercel with continuous integration:
 
 1. Create a Vercel account and connect your GitHub repository
 2. Configure the environment variables if needed
-3. Deploy your application with one click
+3. Set up GitHub Actions for continuous deployment:
+   - The workflow automatically deploys when you push to the main branch
+   - It uses Vercel's CLI for production deployments
+   - Required GitHub secrets:
+     - `VERCEL_TOKEN`: Your Vercel API token
+     - `VERCEL_ORG_ID`: Your Vercel organization ID
+     - `VERCEL_PROJECT_ID`: Your Vercel project ID
+
+The GitHub Actions workflow uses:
+- The latest checkout action (v4)
+- Node.js 20 for optimal compatibility with Next.js 15
+- Vercel's CLI for streamlined deployment
 
 For other hosting providers, build the application using:
 
@@ -110,6 +121,22 @@ npm run build
 # or
 yarn build
 ```
+
+## Setting up Vercel Deployment
+
+1. Install Vercel CLI: `npm i -g vercel`
+2. Login to Vercel: `vercel login`
+3. Link your project: `vercel link`
+4. Get your environment variables:
+   ```bash
+   # This will show your VERCEL_ORG_ID and VERCEL_PROJECT_ID
+   vercel env pull .env.local
+   ```
+5. Create a Vercel API token at https://vercel.com/account/tokens
+6. Add the following secrets to your GitHub repository:
+   - `VERCEL_TOKEN`: Your Vercel API token
+   - `VERCEL_ORG_ID`: From the `.env.local` file
+   - `VERCEL_PROJECT_ID`: From the `.env.local` file
 
 ## AdSense Integration
 
