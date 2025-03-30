@@ -18,7 +18,7 @@ export default function TrainingWeek({ week }: TrainingWeekProps) {
         {week.days.map((day, index) => (
           <div 
             key={index} 
-            className={`p-4 rounded-md ${
+            className={`p-4 rounded-md flex flex-col min-h-[160px] ${
               day.day.includes("Sunday") 
                 ? "bg-amber-50 border border-amber-200" 
                 : day.description.includes("@ M pace") || day.description.includes("@ T pace") || day.description.includes("@ I pace") || day.description.includes("@ R pace")
@@ -28,7 +28,7 @@ export default function TrainingWeek({ week }: TrainingWeekProps) {
           >
             <h4 className="font-semibold text-gray-800">{day.day}</h4>
             <p className="text-sm text-gray-700 mt-1">{day.description}</p>
-            <p className="text-lg font-semibold mt-2">{day.distance} miles</p>
+            <p className="text-lg text-gray-700 font-semibold mt-auto">{day.distance} miles</p>
           </div>
         ))}
       </div>
