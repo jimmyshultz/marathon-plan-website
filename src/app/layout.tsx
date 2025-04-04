@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "../components/CookieConsent";
+import AnalyticsWrapper from "../components/AnalyticsWrapper";
 import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -52,6 +53,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
         <CookieConsent />
+        <AnalyticsWrapper />
         <footer className="bg-gray-800 text-white py-8">
           <div className="container mx-auto px-4 text-center">
             <p className="mb-2">
