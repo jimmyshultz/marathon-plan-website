@@ -3,27 +3,37 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "../components/CookieConsent";
 import AnalyticsWrapper from "../components/AnalyticsWrapper";
+import Navigation from "../components/Navigation";
 import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Marathon Training Plans | 3, 4, and 5-Hour Goal Times",
-  description: "Structured 12-week marathon training plans for 3, 4, and 5-hour goal times based on Jack Daniels' methodology. Personalized running schedules for all levels.",
-  keywords: "marathon training, running plan, marathon schedule, Jack Daniels, marathon training plan, 3 hour marathon, 4 hour marathon, 5 hour marathon",
+  title: "Marathon Training Plans | Science-Based 12-Week Programs for 3, 4, & 5-Hour Goals",
+  description: "Free marathon training plans based on Jack Daniels' proven VDOT methodology. Comprehensive 12-week schedules, training guides, nutrition tips, and race strategies for runners targeting 3:00, 4:00, and 5:00 marathon times.",
+  keywords: "marathon training plan, Jack Daniels VDOT, marathon schedule, 3 hour marathon, 4 hour marathon, 5 hour marathon, running training program, marathon preparation, distance running, endurance training, marathon pace calculator, running coach, marathon tips, race strategy",
   authors: [{ name: "Marathon Training Plans" }],
   openGraph: {
-    title: "Marathon Training Plans | 3, 4, and 5-Hour Goal Times",
-    description: "Structured 12-week marathon training plans for 3, 4, and 5-hour goal times based on Jack Daniels' methodology",
+    title: "Marathon Training Plans | Science-Based Training Programs",
+    description: "Free marathon training plans based on Jack Daniels' VDOT methodology. Achieve your 3, 4, or 5-hour marathon goal with structured 12-week programs, training guides, and expert advice.",
     url: "https://www.marathontrainingplans.com",
     siteName: "Marathon Training Plans",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Marathon Training Plans - Science-Based Training Programs"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Marathon Training Plans | 3, 4, and 5-Hour Goal Times",
-    description: "Structured 12-week marathon training plans for 3, 4, and 5-hour goal times based on Jack Daniels' methodology",
+    title: "Marathon Training Plans | Science-Based Training Programs",
+    description: "Free marathon training plans based on Jack Daniels' VDOT methodology for 3, 4, and 5-hour marathon goals.",
+    images: ["/og-image.jpg"]
   },
   robots: {
     index: true,
@@ -31,7 +41,16 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
+  },
+  verification: {
+    google: "your-google-site-verification-code",
+  },
+  alternates: {
+    canonical: "https://www.marathontrainingplans.com",
   },
 };
 
@@ -51,6 +70,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <Navigation />
         {children}
         <CookieConsent />
         <AnalyticsWrapper />
