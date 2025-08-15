@@ -6,7 +6,7 @@ export default function Contact() {
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Contact Us</h1>
         <p className="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-          Have questions about our training plans? Need help with your marathon preparation? We'd love to hear from you!
+          Have questions about our training plans? Need help with your marathon preparation? We&apos;d love to hear from you!
         </p>
         
         <div className="max-w-4xl mx-auto">
@@ -60,7 +60,7 @@ export default function Contact() {
                 <h4 className="font-semibold text-blue-800 mb-2">Professional Coaching</h4>
                 <p className="text-blue-700 text-sm">
                   While our training plans provide excellent structure, consider working with a certified 
-                  running coach for personalized guidance, especially if you're new to marathon training 
+                  running coach for personalized guidance, especially if you&apos;re new to marathon training 
                   or have specific performance goals.
                 </p>
               </div>
@@ -82,7 +82,7 @@ export default function Contact() {
                 <div>
                   <h3 className="font-semibold text-gray-800 mb-2">What if I miss workouts?</h3>
                   <p className="text-gray-600 text-sm">
-                    Don't try to make up missed workouts. Instead, continue with the current week's plan 
+                    Don&apos;t try to make up missed workouts. Instead, continue with the current week&apos;s plan 
                     or repeat the week if you missed multiple key sessions.
                   </p>
                 </div>
@@ -99,7 +99,7 @@ export default function Contact() {
                   <h3 className="font-semibold text-gray-800 mb-2">Should I run if I feel pain?</h3>
                   <p className="text-gray-600 text-sm">
                     No. Stop running if you experience pain and consult with a healthcare professional. 
-                    It's better to take a few days off than to risk a serious injury.
+                    It&apos;s better to take a few days off than to risk a serious injury.
                   </p>
                 </div>
                 
@@ -126,7 +126,7 @@ export default function Contact() {
           <div className="mt-8 bg-white shadow-md rounded-lg p-8">
             <h2 className="text-2xl font-semibold mb-6 text-gray-800">Share Your Experience</h2>
             <p className="text-gray-600 mb-6">
-              We'd love to hear about your marathon training journey! Your feedback helps us improve 
+              We&apos;d love to hear about your marathon training journey! Your feedback helps us improve 
               our training plans and assists other runners in their preparation.
             </p>
             
@@ -148,7 +148,7 @@ export default function Contact() {
               <div className="text-center p-4 border border-gray-200 rounded-lg">
                 <h3 className="font-semibold text-gray-800 mb-2">Content Requests</h3>
                 <p className="text-sm text-gray-600">
-                  Suggest topics for new training guides or additional resources you'd find helpful.
+                  Suggest topics for new training guides or additional resources you&apos;d find helpful.
                 </p>
               </div>
             </div>
