@@ -169,7 +169,7 @@ export default function TrainingGuides() {
                   <li>• Include electrolytes in longer runs</li>
                   <li>• Monitor urine color</li>
                   <li>• Pre-hydrate 2-3 hours before long runs</li>
-                  <li>• Don't over-hydrate on race day</li>
+                  <li>• Don&apos;t over-hydrate on race day</li>
                 </ul>
               </div>
             </div>
@@ -206,7 +206,7 @@ export default function TrainingGuides() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Warning Signs to Watch</h3>
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <ul className="text-sm text-red-800 space-y-2">
-                    <li>• Persistent pain that doesn't improve with rest</li>
+                    <li>• Persistent pain that doesn&apos;t improve with rest</li>
                     <li>• Pain that worsens during a run</li>
                     <li>• Significant changes in running form</li>
                     <li>• Unusually elevated resting heart rate</li>

@@ -18,7 +18,7 @@ export default function About() {
             
             <h2 className="text-2xl font-semibold mb-4 text-gray-800">The Science Behind Our Plans</h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              Dr. Jack Daniels' VDOT (VO2 max) system is the foundation of our training plans. This system:
+              Dr. Jack Daniels&apos; VDOT (VO2 max) system is the foundation of our training plans. This system:
             </p>
             <ul className="list-disc ml-6 mb-6 text-gray-700">
               <li>Uses your current fitness level to determine optimal training paces</li>
@@ -66,7 +66,7 @@ export default function About() {
               <p className="text-yellow-700 text-sm">
                 These training plans are for educational purposes only. Always consult with a healthcare 
                 provider before beginning any new exercise program. Consider working with a qualified 
-                running coach for personalized guidance, especially if you're new to marathon training 
+                running coach for personalized guidance, especially if you&apos;re new to marathon training 
                 or have a history of injuries.
               </p>
             </div>
