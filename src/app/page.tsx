@@ -20,10 +20,16 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
+              href="/custom-plan" 
+              className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg transform hover:scale-105"
+            >
+              ✨ Create Custom Plan
+            </a>
+            <a 
               href="#training-plans" 
               className="inline-block px-8 py-3 bg-white text-blue-700 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
             >
-              View Training Plans
+              View Pre-Made Plans
             </a>
             <a 
               href="/training-guides" 
