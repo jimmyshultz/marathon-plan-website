@@ -1,11 +1,11 @@
 "use server";
 
-import { MarathonTrainingPlanGenerator } from "@/utils/marathonPlanGenerator";
+import { MarathonTrainingPlanGenerator, GeneratedPlan } from "@/utils/marathonPlanGenerator";
 import { CustomPlanFormData } from "@/components/CustomPlanForm";
 
 interface GeneratePlanResult {
   success: boolean;
-  plan?: ReturnType<MarathonTrainingPlanGenerator["generatePlan"]>;
+  plan?: GeneratedPlan;
   planText?: string;
   message: string;
 }
@@ -24,7 +24,7 @@ export async function generateAndEmailPlan(
       goalTime: formData.goalTime,
     });
 
-    const plan = generator.generatePlan();
+    const plan = generator.generateCompletePlan();
     const planText = generator.generatePlanText();
 
     // If email is provided, send the plan

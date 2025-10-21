@@ -5,12 +5,12 @@ import Link from "next/link";
 import CustomPlanForm, { CustomPlanFormData } from "@/components/CustomPlanForm";
 import CustomPlanDisplay from "@/components/CustomPlanDisplay";
 import { generateAndEmailPlan } from "@/app/actions/generatePlan";
-import { WeeklyPlan } from "@/utils/marathonPlanGenerator";
+import { GeneratedPlan } from "@/utils/marathonPlanGenerator";
 
 export default function CustomPlanPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState<{
-    plan: WeeklyPlan[];
+    plan: GeneratedPlan;
     planText: string;
     formData: CustomPlanFormData;
   } | null>(null);
@@ -220,7 +220,6 @@ export default function CustomPlanPage() {
           <div className="container mx-auto px-4">
             <CustomPlanDisplay
               plan={generatedPlan.plan}
-              goalTime={generatedPlan.formData.goalTime}
               marathonDate={generatedPlan.formData.marathonDate}
               planText={generatedPlan.planText}
             />

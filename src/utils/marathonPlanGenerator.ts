@@ -4,6 +4,16 @@
  * Converted from Python to TypeScript
  */
 
+import { getVDOTAndPaces } from './vdotCalculator';
+
+export interface TrainingPaces {
+  easy: string;
+  marathon: string;
+  threshold: string;
+  interval: string;
+  repetition: string;
+}
+
 export interface WorkoutDetails {
   type: string;
   warmup?: number;
@@ -28,6 +38,13 @@ export interface WeeklyPlan {
   week: number;
   totalMileage: number;
   days: DailyWorkout[];
+}
+
+export interface GeneratedPlan {
+  vdot: number;
+  paces: TrainingPaces;
+  goalTime: string;
+  weeks: WeeklyPlan[];
 }
 
 export interface PlanInputs {
@@ -77,8 +94,9 @@ export class MarathonTrainingPlanGenerator {
 
   private calculateWeeklyMileage(weekNum: number): number {
     if (weekNum === this.trainingWeeks) {
-      // Race week
-      return Math.floor(this.currentWeeklyMiles * 0.5);
+      // Race week - should include the marathon (26.2) plus light easy runs
+      // Typically 30-35 miles total for race week
+      return Math.floor(26.2 + Math.min(12, this.currentWeeklyMiles * 0.3));
     } else if (weekNum >= this.trainingWeeks - 2) {
       // Taper weeks
       const progress = (this.trainingWeeks - weekNum) / 3;
@@ -216,19 +234,29 @@ export class MarathonTrainingPlanGenerator {
     const dailyMiles: number[] = [0, 0, 0, 0, 0, 0, 0];
 
     if (weekNum === this.trainingWeeks) {
-      // Race week
+      // Race week - distribute easy runs throughout the week before race day
       const easyMiles = weeklyTotal - 26.2;
-      for (let i = 0; i < runningDayIndices.length - 1; i++) {
-        const idx = runningDayIndices[i];
-        if (i === 0) {
-          dailyMiles[idx] = 3.0; // Short shakeout
-        } else {
-          dailyMiles[idx] = roundToHalf(
-            (easyMiles - 3.0) / (runningDayIndices.length - 2)
-          );
+      const numEasyDays = runningDayIndices.length - 1; // All days except race day
+      
+      if (numEasyDays > 0 && easyMiles > 0) {
+        // Distribute easy miles across the week
+        // First day gets a bit more (shakeout), others get equal distribution
+        const firstDayMiles = Math.min(4.0, easyMiles * 0.3);
+        const remainingMiles = easyMiles - firstDayMiles;
+        const milesPerDay = numEasyDays > 1 ? remainingMiles / (numEasyDays - 1) : 0;
+        
+        for (let i = 0; i < numEasyDays; i++) {
+          const idx = runningDayIndices[i];
+          if (i === 0) {
+            dailyMiles[idx] = roundToHalf(firstDayMiles);
+          } else {
+            dailyMiles[idx] = roundToHalf(milesPerDay);
+          }
         }
       }
-      dailyMiles[runningDayIndices[runningDayIndices.length - 1]] = 26.2; // Race day (Sunday)
+      
+      // Race day (last running day of the week)
+      dailyMiles[runningDayIndices[runningDayIndices.length - 1]] = 26.2;
     } else {
       // Regular training week
       const longRunMiles = roundToHalf(weeklyTotal * 0.28);
@@ -276,6 +304,10 @@ export class MarathonTrainingPlanGenerator {
     }
 
     return dailyMiles;
+  }
+
+  public getVDOTAndPaces(): { vdot: number; paces: TrainingPaces } {
+    return getVDOTAndPaces(this.goalTime);
   }
 
   public generatePlan(): WeeklyPlan[] {
@@ -352,8 +384,21 @@ export class MarathonTrainingPlanGenerator {
     return plan;
   }
 
+  public generateCompletePlan(): GeneratedPlan {
+    const { vdot, paces } = this.getVDOTAndPaces();
+    const weeks = this.generatePlan();
+    
+    return {
+      vdot,
+      paces,
+      goalTime: this.goalTime,
+      weeks,
+    };
+  }
+
   public generatePlanText(): string {
     const plan = this.generatePlan();
+    const { vdot, paces } = this.getVDOTAndPaces();
     const output: string[] = [];
 
     // Header
@@ -361,6 +406,16 @@ export class MarathonTrainingPlanGenerator {
     output.push(
       `Goal Time: ${this.goalTime} | Race Date: ${this.marathonDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} | Duration: ${this.trainingWeeks} weeks | Days/Week: ${this.daysPerWeek}`
     );
+    output.push(`VDOT: ${vdot} | Training Paces Below`);
+    output.push("\n" + "=".repeat(120) + "\n");
+    
+    // Training Paces
+    output.push("TRAINING PACES:");
+    output.push(`  Easy (E):        ${paces.easy}`);
+    output.push(`  Marathon (M):    ${paces.marathon}`);
+    output.push(`  Threshold (T):   ${paces.threshold}`);
+    output.push(`  Interval (I):    ${paces.interval}`);
+    output.push(`  Repetition (R):  ${paces.repetition}`);
     output.push("\n" + "=".repeat(120) + "\n");
 
     // Weekly details

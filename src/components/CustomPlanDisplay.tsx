@@ -1,15 +1,13 @@
-import { WeeklyPlan } from "@/utils/marathonPlanGenerator";
+import { GeneratedPlan } from "@/utils/marathonPlanGenerator";
 
 interface CustomPlanDisplayProps {
-  plan: WeeklyPlan[];
-  goalTime: string;
+  plan: GeneratedPlan;
   marathonDate: string;
   planText: string;
 }
 
 export default function CustomPlanDisplay({
   plan,
-  goalTime,
   marathonDate,
   planText,
 }: CustomPlanDisplayProps) {
@@ -23,7 +21,7 @@ export default function CustomPlanDisplay({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `marathon-training-plan-${goalTime.replace(/:/g, "-")}.txt`;
+    a.download = `marathon-training-plan-${plan.goalTime.replace(/:/g, "-")}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -36,13 +34,45 @@ export default function CustomPlanDisplay({
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-lg">
         <h2 className="text-3xl font-bold mb-2">Your Custom Training Plan</h2>
         <p className="text-lg">
-          Goal Time: {goalTime} | Race Date:{" "}
+          Goal Time: {plan.goalTime} | Race Date:{" "}
           {new Date(marathonDate).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
-          })}
+          })} | VDOT: {plan.vdot}
         </p>
+      </div>
+
+      {/* Pace Card */}
+      <div className="bg-white shadow-md border-x border-gray-200 p-6">
+        <h3 className="text-xl font-bold text-gray-800 mb-4">Training Paces (Based on Jack Daniels&apos; VDOT)</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+            <div className="text-sm font-semibold text-green-800 mb-1">Easy (E)</div>
+            <div className="text-lg font-bold text-green-900">{plan.paces.easy}</div>
+            <div className="text-xs text-green-700 mt-1">Recovery & base building</div>
+          </div>
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <div className="text-sm font-semibold text-blue-800 mb-1">Marathon (M)</div>
+            <div className="text-lg font-bold text-blue-900">{plan.paces.marathon}</div>
+            <div className="text-xs text-blue-700 mt-1">Goal race pace</div>
+          </div>
+          <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+            <div className="text-sm font-semibold text-yellow-800 mb-1">Threshold (T)</div>
+            <div className="text-lg font-bold text-yellow-900">{plan.paces.threshold}</div>
+            <div className="text-xs text-yellow-700 mt-1">Tempo runs</div>
+          </div>
+          <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+            <div className="text-sm font-semibold text-orange-800 mb-1">Interval (I)</div>
+            <div className="text-lg font-bold text-orange-900">{plan.paces.interval}</div>
+            <div className="text-xs text-orange-700 mt-1">VO2max work</div>
+          </div>
+          <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+            <div className="text-sm font-semibold text-red-800 mb-1">Repetition (R)</div>
+            <div className="text-lg font-bold text-red-900">{plan.paces.repetition}</div>
+            <div className="text-xs text-red-700 mt-1">Speed & form</div>
+          </div>
+        </div>
       </div>
 
       {/* Action Buttons */}
@@ -108,7 +138,7 @@ export default function CustomPlanDisplay({
 
       {/* Weekly Plan Display */}
       <div className="bg-white shadow-lg rounded-b-lg border border-gray-200">
-        {plan.map((weekPlan) => (
+        {plan.weeks.map((weekPlan) => (
           <div
             key={weekPlan.week}
             className="border-b border-gray-200 last:border-b-0"
