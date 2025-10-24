@@ -2,6 +2,7 @@
 
 import { MarathonTrainingPlanGenerator, GeneratedPlan } from "@/utils/marathonPlanGenerator";
 import { CustomPlanFormData } from "@/components/CustomPlanForm";
+import { saveSubscriber } from "@/db/queries";
 
 interface GeneratePlanResult {
   success: boolean;
@@ -26,6 +27,28 @@ export async function generateAndEmailPlan(
 
     const plan = generator.generateCompletePlan();
     const planText = generator.generatePlanText();
+
+    // Save subscriber to database if marketing consent is given and email provided
+    if (formData.email && formData.marketingConsent) {
+      try {
+        await saveSubscriber({
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          marketingConsent: formData.marketingConsent,
+          marathonDate: formData.marathonDate,
+          goalTime: formData.goalTime,
+          trainingWeeks: formData.trainingWeeks,
+          daysPerWeek: formData.daysPerWeek,
+          currentWeeklyMiles: formData.currentWeeklyMiles,
+          maxWeeklyMiles: formData.maxWeeklyMiles,
+        });
+        console.log('Subscriber saved successfully:', formData.email);
+      } catch (dbError) {
+        console.error("Failed to save subscriber to database:", dbError);
+        // Don't fail the request if database save fails - gracefully degrade
+      }
+    }
 
     // If email is provided, send the plan
     if (formData.email) {

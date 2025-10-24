@@ -11,6 +11,8 @@ export interface CustomPlanFormData {
   goalTime: string;
   email: string;
   firstName: string;
+  lastName: string;
+  marketingConsent: boolean;
 }
 
 interface CustomPlanFormProps {
@@ -28,6 +30,8 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
     goalTime: "4:00:00",
     email: "",
     firstName: "",
+    lastName: "",
+    marketingConsent: false,
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof CustomPlanFormData, string>>>({});
@@ -97,12 +101,16 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "trainingWeeks" || name === "currentWeeklyMiles" || name === "maxWeeklyMiles" || name === "daysPerWeek"
-        ? parseInt(value)
-        : value,
+      [name]: type === "checkbox" 
+        ? checked
+        : (name === "trainingWeeks" || name === "currentWeeklyMiles" || name === "maxWeeklyMiles" || name === "daysPerWeek"
+          ? parseInt(value)
+          : value),
     }));
     // Clear error for this field when user starts typing
     if (errors[name as keyof CustomPlanFormData]) {
@@ -123,6 +131,22 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
             id="firstName"
             name="firstName"
             value={formData.firstName}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+            placeholder="Optional"
+          />
+        </div>
+
+        {/* Last Name */}
+        <div>
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+            Last Name
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={formData.lastName}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             placeholder="Optional"
@@ -294,6 +318,33 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
             <p className="mt-1 text-sm text-red-600">{errors.maxWeeklyMiles}</p>
           )}
           <p className="mt-1 text-xs text-gray-500">Target peak mileage during training</p>
+        </div>
+      </div>
+
+      {/* Marketing Consent */}
+      <div className="mt-6 bg-gray-50 p-4 rounded-md border border-gray-200">
+        <div className="flex items-start">
+          <div className="flex items-center h-5">
+            <input
+              type="checkbox"
+              id="marketingConsent"
+              name="marketingConsent"
+              checked={formData.marketingConsent}
+              onChange={handleChange}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
+            />
+          </div>
+          <div className="ml-3 text-sm">
+            <label htmlFor="marketingConsent" className="font-medium text-gray-700 cursor-pointer">
+              Yes, I&apos;d like to receive training tips, race strategies, and updates via email
+            </label>
+            <p className="text-xs text-gray-500 mt-1">
+              We respect your privacy. Unsubscribe anytime. See our{" "}
+              <a href="/privacy-policy" className="text-blue-600 hover:text-blue-700 underline">
+                Privacy Policy
+              </a>
+            </p>
+          </div>
         </div>
       </div>
 
