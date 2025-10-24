@@ -22,6 +22,9 @@ export default function Navigation() {
             <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">
               Home
             </Link>
+            <Link href="/custom-plan" className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md">
+              Custom Plan
+            </Link>
             <Link href="/training-guides" className="text-gray-700 hover:text-blue-600 transition-colors">
               Training Guides
             </Link>
@@ -66,6 +69,13 @@ export default function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
+              </Link>
+              <Link 
+                href="/custom-plan" 
+                className="block px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-md hover:from-blue-700 hover:to-purple-700 transition-all"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Custom Plan ⭐
               </Link>
               <Link 
                 href="/training-guides" 
