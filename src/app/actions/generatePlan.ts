@@ -81,7 +81,7 @@ async function sendPlanEmail(
         Authorization: `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
-        from: "Marathon Training Plans <noreply@jimmyshultz.com>",
+        from: "Marathon Training Plans <noreply@marathontrainingplans.jimmyshultz.com>",
         to: [formData.email],
         subject: `Your Custom ${formData.goalTime} Marathon Training Plan`,
         html: generateEmailHTML(formData, planText),
