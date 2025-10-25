@@ -28,8 +28,9 @@ export async function generateAndEmailPlan(
     const plan = generator.generateCompletePlan();
     const planText = generator.generatePlanText();
 
-    // Save subscriber to database if marketing consent is given and email provided
-    if (formData.email && formData.marketingConsent) {
+    // Save subscriber to database if marketing consent is given
+    // (email is now always required, but we only save if they opt in)
+    if (formData.marketingConsent) {
       try {
         await saveSubscriber({
           email: formData.email,
@@ -50,30 +51,26 @@ export async function generateAndEmailPlan(
       }
     }
 
-    // If email is provided, send the plan
-    if (formData.email) {
-      try {
-        await sendPlanEmail(formData, planText);
-      } catch (emailError) {
-        console.error("Failed to send email:", emailError);
-        // Don't fail the whole request if email fails
-        return {
-          success: true,
-          plan,
-          planText,
-          message:
-            "Your plan has been generated, but we couldn't send the email. Please copy your plan from the page.",
-        };
-      }
+    // Send the plan via email (email is now always required)
+    try {
+      await sendPlanEmail(formData, planText);
+    } catch (emailError) {
+      console.error("Failed to send email:", emailError);
+      // Don't fail the whole request if email fails
+      return {
+        success: true,
+        plan,
+        planText,
+        message:
+          "Your plan has been generated, but we couldn't send the email. Please copy your plan from the page.",
+      };
     }
 
     return {
       success: true,
       plan,
       planText,
-      message: formData.email
-        ? "Your training plan has been generated and emailed to you!"
-        : "Your training plan has been generated!",
+      message: "Your training plan has been generated and emailed to you!",
     };
   } catch (error) {
     console.error("Error generating plan:", error);
