@@ -47,7 +47,7 @@ export async function saveSubscriber(subscriber: Subscriber): Promise<Subscriber
   try {
     // Generate unsubscribe token if not provided
     const unsubscribeToken = subscriber.unsubscribeToken || generateUnsubscribeToken();
-    const consentDate = subscriber.marketingConsent ? new Date() : null;
+    const consentDate = subscriber.marketingConsent ? new Date().toISOString() : null;
 
     // Insert or update on conflict (duplicate email)
     const result = await sql`
