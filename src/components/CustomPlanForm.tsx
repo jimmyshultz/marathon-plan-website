@@ -11,6 +11,8 @@ export interface CustomPlanFormData {
   goalTime: string;
   email: string;
   firstName: string;
+  lastName: string;
+  marketingConsent: boolean;
 }
 
 interface CustomPlanFormProps {
@@ -28,6 +30,8 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
     goalTime: "4:00:00",
     email: "",
     firstName: "",
+    lastName: "",
+    marketingConsent: false,
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof CustomPlanFormData, string>>>({});
@@ -77,8 +81,20 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
       newErrors.goalTime = "Goal time must be in format HH:MM:SS (e.g., 4:00:00)";
     }
 
-    // Validate email if provided
-    if (formData.email) {
+    // Validate first name (required)
+    if (!formData.firstName || formData.firstName.trim() === "") {
+      newErrors.firstName = "First name is required";
+    }
+
+    // Validate last name (required)
+    if (!formData.lastName || formData.lastName.trim() === "") {
+      newErrors.lastName = "Last name is required";
+    }
+
+    // Validate email (required)
+    if (!formData.email || formData.email.trim() === "") {
+      newErrors.email = "Email address is required";
+    } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
         newErrors.email = "Please enter a valid email address";
@@ -97,12 +113,16 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "trainingWeeks" || name === "currentWeeklyMiles" || name === "maxWeeklyMiles" || name === "daysPerWeek"
-        ? parseInt(value)
-        : value,
+      [name]: type === "checkbox" 
+        ? checked
+        : (name === "trainingWeeks" || name === "currentWeeklyMiles" || name === "maxWeeklyMiles" || name === "daysPerWeek"
+          ? parseInt(value)
+          : value),
     }));
     // Clear error for this field when user starts typing
     if (errors[name as keyof CustomPlanFormData]) {
@@ -116,7 +136,7 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
         {/* First Name */}
         <div>
           <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-            First Name
+            First Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -124,15 +144,39 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
-            placeholder="Optional"
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black ${
+              errors.firstName ? "border-red-500" : "border-gray-300"
+            }`}
+            placeholder="Your first name"
+            required
           />
+          {errors.firstName && <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>}
+        </div>
+
+        {/* Last Name */}
+        <div>
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+            Last Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black ${
+              errors.lastName ? "border-red-500" : "border-gray-300"
+            }`}
+            placeholder="Your last name"
+            required
+          />
+          {errors.lastName && <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>}
         </div>
 
         {/* Email */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-            Email Address
+            Email Address <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -143,7 +187,8 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
             className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
-            placeholder="your@email.com (optional)"
+            placeholder="your@email.com"
+            required
           />
           {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
           <p className="mt-1 text-xs text-gray-500">
@@ -297,6 +342,33 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
         </div>
       </div>
 
+      {/* Marketing Consent */}
+      <div className="mt-6 bg-gray-50 p-4 rounded-md border border-gray-200">
+        <div className="flex items-start">
+          <div className="flex items-center h-5">
+            <input
+              type="checkbox"
+              id="marketingConsent"
+              name="marketingConsent"
+              checked={formData.marketingConsent}
+              onChange={handleChange}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
+            />
+          </div>
+          <div className="ml-3 text-sm">
+            <label htmlFor="marketingConsent" className="font-medium text-gray-700 cursor-pointer">
+              Yes, I&apos;d like to receive training tips, race strategies, and updates via email
+            </label>
+            <p className="text-xs text-gray-500 mt-1">
+              We respect your privacy. Unsubscribe anytime. See our{" "}
+              <a href="/privacy-policy" className="text-blue-600 hover:text-blue-700 underline">
+                Privacy Policy
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Submit Button */}
       <div className="mt-8">
         <button
@@ -333,9 +405,7 @@ export default function CustomPlanForm({ onSubmit, isSubmitting }: CustomPlanFor
           )}
         </button>
         <p className="mt-2 text-sm text-gray-600 text-center">
-          {formData.email
-            ? "Your plan will be displayed below and emailed to you"
-            : "Your plan will be displayed below (provide email to receive a copy)"}
+          Your plan will be displayed below and emailed to you
         </p>
       </div>
     </form>

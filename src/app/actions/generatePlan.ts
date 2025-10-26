@@ -2,6 +2,7 @@
 
 import { MarathonTrainingPlanGenerator, GeneratedPlan } from "@/utils/marathonPlanGenerator";
 import { CustomPlanFormData } from "@/components/CustomPlanForm";
+import { saveSubscriber } from "@/db/queries";
 
 interface GeneratePlanResult {
   success: boolean;
@@ -27,30 +28,49 @@ export async function generateAndEmailPlan(
     const plan = generator.generateCompletePlan();
     const planText = generator.generatePlanText();
 
-    // If email is provided, send the plan
-    if (formData.email) {
+    // Save subscriber to database if marketing consent is given
+    // (email is now always required, but we only save if they opt in)
+    if (formData.marketingConsent) {
       try {
-        await sendPlanEmail(formData, planText);
-      } catch (emailError) {
-        console.error("Failed to send email:", emailError);
-        // Don't fail the whole request if email fails
-        return {
-          success: true,
-          plan,
-          planText,
-          message:
-            "Your plan has been generated, but we couldn't send the email. Please copy your plan from the page.",
-        };
+        await saveSubscriber({
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          marketingConsent: formData.marketingConsent,
+          marathonDate: formData.marathonDate,
+          goalTime: formData.goalTime,
+          trainingWeeks: formData.trainingWeeks,
+          daysPerWeek: formData.daysPerWeek,
+          currentWeeklyMiles: formData.currentWeeklyMiles,
+          maxWeeklyMiles: formData.maxWeeklyMiles,
+        });
+        console.log('Subscriber saved successfully:', formData.email);
+      } catch (dbError) {
+        console.error("Failed to save subscriber to database:", dbError);
+        // Don't fail the request if database save fails - gracefully degrade
       }
+    }
+
+    // Send the plan via email (email is now always required)
+    try {
+      await sendPlanEmail(formData, planText);
+    } catch (emailError) {
+      console.error("Failed to send email:", emailError);
+      // Don't fail the whole request if email fails
+      return {
+        success: true,
+        plan,
+        planText,
+        message:
+          "Your plan has been generated, but we couldn't send the email. Please copy your plan from the page.",
+      };
     }
 
     return {
       success: true,
       plan,
       planText,
-      message: formData.email
-        ? "Your training plan has been generated and emailed to you!"
-        : "Your training plan has been generated!",
+      message: "Your training plan has been generated and emailed to you!",
     };
   } catch (error) {
     console.error("Error generating plan:", error);

@@ -17,6 +17,38 @@ export default function PrivacyPolicy() {
               tell you about your privacy rights and how the law protects you.
             </p>
             
+            <h2 className="text-xl text-black font-semibold mt-6 mb-3">Email Collection and Marketing Communications</h2>
+            <p className="mb-4 text-black">
+              When you request a custom training plan through our website, you have the option to provide your email address and consent to receive marketing communications from us.
+            </p>
+            <p className="mb-4 text-black">
+              <strong>What We Collect:</strong>
+            </p>
+            <ul className="list-disc ml-6 mb-4 text-black">
+              <li>Email address (required for sending training plans)</li>
+              <li>First and last name (optional)</li>
+              <li>Training plan preferences (marathon date, goal time, training weeks, running frequency, mileage targets)</li>
+              <li>Marketing consent status and date</li>
+            </ul>
+            <p className="mb-4 text-black">
+              <strong>How We Use This Information:</strong>
+            </p>
+            <ul className="list-disc ml-6 mb-4 text-black">
+              <li>To deliver your custom training plan via email</li>
+              <li>To send training tips, race strategies, and updates (only if you opt-in)</li>
+              <li>To improve our services and personalize your experience</li>
+              <li>To share aggregated, anonymized data with partners and sponsors</li>
+            </ul>
+            <p className="mb-4 text-black">
+              <strong>Your Rights:</strong>
+            </p>
+            <ul className="list-disc ml-6 mb-4 text-black">
+              <li>Marketing emails are <strong>opt-in only</strong> - you must actively check the consent box</li>
+              <li>You can unsubscribe at any time using the link in any marketing email</li>
+              <li>Unsubscribing from marketing emails will not affect delivery of training plans you specifically request</li>
+              <li>You can request deletion of your data by contacting us through our contact page</li>
+            </ul>
+            
             <h2 className="text-xl text-black font-semibold mt-6 mb-3">The Data We Collect</h2>
             <p className="mb-4 text-black">
               We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
